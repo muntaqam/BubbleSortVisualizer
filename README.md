@@ -25,13 +25,7 @@ Make sure you have the following software installed:
 git clone https://github.com/your-username/algovisualizer.git
 ```
 
-2. Navigate to the project directory.
-
-```bash
-cd algovisualizer
-```
-
-3. Install the dependencies.
+2. Install the dependencies.
 
 ```bash
 npm install
