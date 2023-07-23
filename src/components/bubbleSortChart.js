@@ -14,7 +14,7 @@ function BubbleSortChart({ data }) {
   const [originalData, setOriginalData] = useState([]);
   const [speed, setSpeed] = useState(1);
   const [sortingDone, setSortingDone] = useState(false); // New state variable for sorting status
-  let timer; // Move the 'timer' variable to the component's scope
+  const timer = useRef(); // Move the 'timer' variable to the component's scope
 
   const randomizeData = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -70,6 +70,15 @@ function BubbleSortChart({ data }) {
     setSortingDone(false); // Reset sorting status
     setIsPlaying(false); // Stop sorting animation
     window.location.reload(); // Reload the page
+  };
+
+  const handlePlayPause = () => {
+    setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+  };
+
+  const handleSpeedChange = (event) => {
+    const newSpeed = parseFloat(event.target.value);
+    setSpeed(newSpeed);
   };
 
   useEffect(() => {
@@ -134,7 +143,7 @@ function BubbleSortChart({ data }) {
       let sorted = false;
       let n = data.length;
 
-      timer = setInterval(() => {
+      timer.current = setInterval(() => {
         if (isPlaying && !sorted) {
           sorted = true;
           for (let i = 0; i < n - 1; i++) {
@@ -148,33 +157,24 @@ function BubbleSortChart({ data }) {
           }
           n--;
         } else if (!isPlaying) {
-          clearInterval(timer);
+          clearInterval(timer.current);
         } else if (sorted) {
-          clearInterval(timer);
+          clearInterval(timer.current);
           setSortingDone(true); // Set sorting status to done when the sorting is completed
         }
       }, 1000 / speed);
     };
 
     if (!isPlaying) {
-      clearInterval(timer);
+      clearInterval(timer.current);
     } else {
       bubbleSort();
     }
 
-    return () => clearInterval(timer);
+    return () => clearInterval(timer.current);
   }, [data, isPlaying, speed]);
 
-  const handlePlayPause = () => {
-    setIsPlaying((prevIsPlaying) => !prevIsPlaying);
-  };
-
-  const handleSpeedChange = (event) => {
-    const newSpeed = parseFloat(event.target.value);
-    setSpeed(newSpeed);
-  };
-
-    return (
+  return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <div style={{ textAlign: 'center' }}>
         <svg ref={ref} width={svgWidth} height={svgHeight} style={{ marginLeft: '15%' }}></svg>
@@ -209,6 +209,5 @@ function BubbleSortChart({ data }) {
     </div>
   );
 }
-
 
 export default BubbleSortChart;
