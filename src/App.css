@@ -1,0 +1,185 @@
+/* App.css */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #272822;
+    color: #ffffff;
+}
+
+.App {
+    text-align: center;
+}
+
+.App-header {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+}
+
+svg {
+    border: none;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.play-pause {
+    background-color: #61a6ff;
+    border: none;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.play-pause.play {
+    background-color: #61a6ff;
+}
+
+.play-pause.pause {
+    background-color: #ff6161;
+}
+
+.speed {
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+/* CSS styles for the buttons */
+.play-pause,
+.reset {
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.play-pause.play {
+    background-color: #4caf50;
+}
+
+.play-pause.pause {
+    background-color: #f44336;
+}
+
+.reset {
+    background-color: #2196f3;
+}
+
+label.speed-label {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.select-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.select-icon::before {
+  content: '\\25BE';
+}
+
+.speed {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  padding: 5px;
+  padding-right: 25px;
+  cursor: pointer;
+}
+
+.speed:focus {
+  outline: none;
+}
+
+
+/* Style for the reset button */
+.reset {
+background-color: #f44336;
+
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 5px;
+font-size: 16px;
+cursor: pointer;
+
+}
+
+.reset:hover {
+    background-color: #45a049;
+}
+
+/* Styles for the speed drop-down */
+label.speed-label {
+  font-size: 16px;
+  margin: 10px;
+
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.select-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.select-icon::before {
+    content: '\\25BE';
+}
+
+.speed {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    padding: 5px 25px 5px 5px;
+    cursor: pointer;
+}
+
+.speed:focus {
+    outline: none;
+}
+
+
