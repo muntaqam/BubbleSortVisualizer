@@ -4,7 +4,6 @@ import './App.css';
 
 function App() {
   const data = [25, 30, 45, 60, 20, 65, 75, 100, 55, 1, 42, 90, 89, 77, 13, 10];
-  const [sorting, setSorting] = useState('bubble');
 
   
   useEffect(() => {

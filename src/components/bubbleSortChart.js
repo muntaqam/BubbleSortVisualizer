@@ -2,19 +2,21 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 
 function BubbleSortChart({ data }) {
-  const ref = useRef();
+  const ref = useRef(); //select svg element where chart is
   const padding = 30;
 
   // Adjust the dimensions by 40%
   const svgWidth = 900; // 500 * 1.8
   const svgHeight = 900; // 500 * 1.8
 
-  // Track animation progress
+
   const [isPlaying, setIsPlaying] = useState(false);
-  const [originalData, setOriginalData] = useState([]);
+
+  //const [originalData, setOriginalData] = useState(null);
+
   const [speed, setSpeed] = useState(1);
-  const [sortingDone, setSortingDone] = useState(false); // New state variable for sorting status
-  const timer = useRef(); // Move the 'timer' variable to the component's scope
+  const [sortingDone, setSortingDone] = useState(false); 
+  let timer; 
 
   const randomizeData = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -24,12 +26,12 @@ function BubbleSortChart({ data }) {
     return array;
   };
 
-  useEffect(() => {
-    setOriginalData(data.slice()); // Initialize originalData with unsorted data
-  }, [data]);
+  // useEffect(() => {
+  //   setOriginalData(data.slice()); // Initialize originalData with unsorted data
+  // }, [data]);
 
   useEffect(() => {
-    // Initialize the SVG
+    
     const svg = d3.select(ref.current).attr('width', svgWidth).attr('height', svgHeight);
 
     const barWidth = 35;
@@ -38,7 +40,7 @@ function BubbleSortChart({ data }) {
 
     const yScale = d3.scaleLinear().domain([0, d3.max(data)]).range([0, svgHeight - padding]);
 
-    // Draw the unsorted bars
+    // Draw bars
     const bars = svg.selectAll('rect').data(data);
 
     bars.exit().remove();
@@ -51,6 +53,7 @@ function BubbleSortChart({ data }) {
       .attr('height', (d) => yScale(d))
       .attr('fill', 'steelblue');
 
+//draw text 
     const text = svg.selectAll('.bar-label').data(data);
 
     text.enter()
@@ -66,19 +69,10 @@ function BubbleSortChart({ data }) {
   }, [data]);
 
   const resetDataAndSort = () => {
-    setOriginalData(randomizeData(data.slice()));
-    setSortingDone(false); // Reset sorting status
-    setIsPlaying(false); // Stop sorting animation
-    window.location.reload(); // Reload the page
-  };
-
-  const handlePlayPause = () => {
-    setIsPlaying((prevIsPlaying) => !prevIsPlaying);
-  };
-
-  const handleSpeedChange = (event) => {
-    const newSpeed = parseFloat(event.target.value);
-    setSpeed(newSpeed);
+   // setOriginalData(randomizeData(data.slice()));
+    setSortingDone(false); 
+    setIsPlaying(false); 
+    window.location.reload(); 
   };
 
   useEffect(() => {
@@ -99,7 +93,7 @@ function BubbleSortChart({ data }) {
         .attr('y', (d) => svgHeight - padding - yScale(d))
         .attr('height', (d) => yScale(d))
         .attr('width', barWidth)
-        .transition() // Add transition for animation
+        .transition() 
         .duration(500)
         .attr('y', (d) => svgHeight - padding - yScale(d))
         .attr('height', (d) => yScale(d));
@@ -107,11 +101,11 @@ function BubbleSortChart({ data }) {
       bars.enter()
         .append('rect')
         .attr('x', (d, i) => i * barSpacing)
-        .attr('y', (d) => svgHeight - padding - yScale(0)) // Start from the bottom for animation
+        .attr('y', (d) => svgHeight - padding - yScale(0)) 
         .attr('width', barWidth)
-        .attr('height', (d) => yScale(0)) // Start from the bottom for animation
+        .attr('height', (d) => yScale(0)) 
         .attr('fill', (d, i) => (comparedIndexes.includes(i) ? '#4CAF50' : 'steelblue'))
-        .transition() // Add transition for animation
+        .transition() 
         .duration(500)
         .attr('y', (d) => svgHeight - padding - yScale(d))
         .attr('height', (d) => yScale(d));
@@ -143,7 +137,7 @@ function BubbleSortChart({ data }) {
       let sorted = false;
       let n = data.length;
 
-      timer.current = setInterval(() => {
+      timer = setInterval(() => {
         if (isPlaying && !sorted) {
           sorted = true;
           for (let i = 0; i < n - 1; i++) {
@@ -157,24 +151,33 @@ function BubbleSortChart({ data }) {
           }
           n--;
         } else if (!isPlaying) {
-          clearInterval(timer.current);
+          clearInterval(timer);
         } else if (sorted) {
-          clearInterval(timer.current);
-          setSortingDone(true); // Set sorting status to done when the sorting is completed
+          clearInterval(timer);
+          setSortingDone(true); // sorting is completed so reset random
         }
       }, 1000 / speed);
     };
 
     if (!isPlaying) {
-      clearInterval(timer.current);
+      clearInterval(timer);
     } else {
       bubbleSort();
     }
 
-    return () => clearInterval(timer.current);
+    return () => clearInterval(timer);
   }, [data, isPlaying, speed]);
 
-  return (
+  const handlePlayPause = () => {
+    setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+  };
+
+  const handleSpeedChange = (event) => {
+    const newSpeed = parseFloat(event.target.value);
+    setSpeed(newSpeed);
+  };
+
+    return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <div style={{ textAlign: 'center' }}>
         <svg ref={ref} width={svgWidth} height={svgHeight} style={{ marginLeft: '15%' }}></svg>
@@ -209,5 +212,6 @@ function BubbleSortChart({ data }) {
     </div>
   );
 }
+
 
 export default BubbleSortChart;
